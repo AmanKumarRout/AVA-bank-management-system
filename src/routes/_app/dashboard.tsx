@@ -62,16 +62,16 @@ function Dashboard() {
         <div className="lg:col-span-2 grid gap-6 md:grid-cols-2">
           <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
             <p className="text-xs uppercase tracking-widest text-muted-foreground">Available Balance</p>
-            <p className="mt-2 text-4xl font-bold">${Number(account?.balance ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+            <p className="mt-2 text-4xl font-bold">₹{Number(account?.balance ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
             <p className="mt-1 text-xs text-muted-foreground">Acct • {account?.account_number}</p>
             <div className="mt-6 grid grid-cols-2 gap-3">
               <div className="rounded-lg bg-success/10 p-3">
                 <div className="flex items-center gap-1.5 text-xs text-success"><TrendingUp className="h-3 w-3" /> Credits</div>
-                <p className="mt-1 text-lg font-semibold">${credits.toFixed(2)}</p>
+                <p className="mt-1 text-lg font-semibold">₹{credits.toFixed(2)}</p>
               </div>
               <div className="rounded-lg bg-destructive/10 p-3">
                 <div className="flex items-center gap-1.5 text-xs text-destructive"><TrendingDown className="h-3 w-3" /> Debits</div>
-                <p className="mt-1 text-lg font-semibold">${debits.toFixed(2)}</p>
+                <p className="mt-1 text-lg font-semibold">₹{debits.toFixed(2)}</p>
               </div>
             </div>
           </div>
