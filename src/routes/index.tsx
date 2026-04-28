@@ -63,7 +63,7 @@ function Landing() {
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-widest text-white/60">AVA Platinum</p>
-                  <p className="mt-2 text-3xl font-bold">$12,847.50</p>
+                  <p className="mt-2 text-3xl font-bold">₹12,84,750.00</p>
                 </div>
                 <CreditCard className="h-8 w-8 text-white/80" />
               </div>
@@ -71,7 +71,7 @@ function Landing() {
               <div className="mt-4 flex items-end justify-between">
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-white/50">Holder</p>
-                  <p className="text-sm font-medium">Alex Morgan</p>
+                  <p className="text-sm font-medium">Arjun Sharma</p>
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-white/50">Expires</p>
