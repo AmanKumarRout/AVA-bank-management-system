@@ -15,7 +15,7 @@ function Landing() {
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-primary shadow-glow">
             <CreditCard className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-lg font-bold tracking-tight">Nexus Bank</span>
+          <span className="text-lg font-bold tracking-tight">AVA Bank</span>
         </div>
         <nav className="hidden gap-8 text-sm font-medium text-muted-foreground md:flex">
           <a href="#features" className="hover:text-foreground transition-colors">Features</a>
@@ -62,7 +62,7 @@ function Landing() {
             <div className="bg-gradient-card rounded-3xl p-8 text-white shadow-elegant">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-widest text-white/60">Nexus Platinum</p>
+                  <p className="text-xs uppercase tracking-widest text-white/60">AVA Platinum</p>
                   <p className="mt-2 text-3xl font-bold">$12,847.50</p>
                 </div>
                 <CreditCard className="h-8 w-8 text-white/80" />
@@ -114,7 +114,7 @@ function Landing() {
       </section>
 
       <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground">
-        © 2026 Nexus Bank. All rights reserved.
+        © 2026 AVA Bank. All rights reserved.
       </footer>
     </div>
   );
