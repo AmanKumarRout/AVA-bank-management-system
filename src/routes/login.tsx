@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CreditCard, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { getUserRole } from "@/lib/auth";
 
 export const Route = createFileRoute("/login")({ component: Login });
 
@@ -24,14 +25,18 @@ function Login() {
       setLoading(false);
       return;
     }
-    // Look up role
-    const { data: roleRow } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", data.user.id)
-      .maybeSingle();
+    let role: "admin" | "user";
+    try {
+      role = await getUserRole(data.user.id);
+    } catch {
+      await supabase.auth.signOut();
+      toast.error("Login worked, but account role could not load. Please try again in a minute.");
+      setLoading(false);
+      return;
+    }
+
     toast.success("Welcome back!");
-    if (roleRow?.role === "admin") navigate({ to: "/admin" });
+    if (role === "admin") navigate({ to: "/admin" });
     else navigate({ to: "/dashboard" });
   };
 
