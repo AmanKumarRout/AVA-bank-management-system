@@ -79,17 +79,6 @@ function Landing() {
                 </div>
               </div>
             </div>
-            <div className="absolute -bottom-6 -left-6 rounded-2xl border border-border bg-card p-4 shadow-card">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-success/10">
-                  <TrendingUp className="h-5 w-5 text-success" />
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground">This month</p>
-                  <p className="text-sm font-semibold">+$2,340 saved</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
