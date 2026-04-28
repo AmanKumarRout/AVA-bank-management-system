@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CreditCard, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { getUserRole } from "@/lib/auth";
+import { getUserRole } from "@/lib/roles";
 
 export const Route = createFileRoute("/login")({ component: Login });
 
@@ -57,19 +57,40 @@ function Login() {
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1.5" />
+              <Input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1.5"
+              />
             </div>
             <div>
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1.5" />
+              <Input
+                id="password"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1.5"
+              />
             </div>
-            <Button type="submit" disabled={loading} className="w-full bg-gradient-primary shadow-card">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-primary shadow-card"
+            >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Sign in"}
             </Button>
           </form>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            Don't have an account? <Link to="/signup" className="font-medium text-primary hover:underline">Open one</Link>
+            Don't have an account?{" "}
+            <Link to="/signup" className="font-medium text-primary hover:underline">
+              Open one
+            </Link>
           </p>
         </div>
 
