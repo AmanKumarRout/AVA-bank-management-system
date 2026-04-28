@@ -14,16 +14,175 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      accounts: {
+        Row: {
+          account_number: string
+          balance: number
+          card_expiry: string
+          card_number: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          account_number: string
+          balance?: number
+          card_expiry?: string
+          card_number: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          account_number?: string
+          balance?: number
+          card_expiry?: string
+          card_number?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      loans: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          purpose: string
+          status: Database["public"]["Enums"]["loan_status"]
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          purpose?: string
+          status?: Database["public"]["Enums"]["loan_status"]
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          purpose?: string
+          status?: Database["public"]["Enums"]["loan_status"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          phone: string | null
+          status: Database["public"]["Enums"]["account_status"]
+        }
+        Insert: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id: string
+          phone?: string | null
+          status?: Database["public"]["Enums"]["account_status"]
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          status?: Database["public"]["Enums"]["account_status"]
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          account_id: string
+          amount: number
+          balance_after: number
+          counterparty: string | null
+          created_at: string
+          description: string
+          id: string
+          type: Database["public"]["Enums"]["txn_type"]
+        }
+        Insert: {
+          account_id: string
+          amount: number
+          balance_after: number
+          counterparty?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          type: Database["public"]["Enums"]["txn_type"]
+        }
+        Update: {
+          account_id?: string
+          amount?: number
+          balance_after?: number
+          counterparty?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          type?: Database["public"]["Enums"]["txn_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      transfer_money: {
+        Args: {
+          _amount: number
+          _description?: string
+          _to_account_number: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
-      [_ in never]: never
+      account_status: "active" | "blocked"
+      app_role: "admin" | "user"
+      loan_status: "pending" | "approved" | "rejected" | "closed"
+      txn_type: "credit" | "debit"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +309,11 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      account_status: ["active", "blocked"],
+      app_role: ["admin", "user"],
+      loan_status: ["pending", "approved", "rejected", "closed"],
+      txn_type: ["credit", "debit"],
+    },
   },
 } as const
