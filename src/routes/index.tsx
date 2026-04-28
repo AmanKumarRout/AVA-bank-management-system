@@ -35,7 +35,7 @@ function Landing() {
               <Zap className="h-3 w-3" /> Modern banking, redesigned
             </div>
             <h1 className="text-5xl font-bold tracking-tight text-foreground lg:text-6xl">
-              Banking that <span className="bg-gradient-primary bg-clip-text text-transparent">moves at your speed</span>
+              Banking that <span className="text-primary">moves at your speed</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
               Send money instantly, track every transaction, and manage loans — all from a beautifully simple dashboard built for the modern world.
@@ -63,7 +63,7 @@ function Landing() {
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-widest text-white/60">AVA Platinum</p>
-                  <p className="mt-2 text-3xl font-bold">$12,847.50</p>
+                  <p className="mt-2 text-3xl font-bold">₹12,84,750.00</p>
                 </div>
                 <CreditCard className="h-8 w-8 text-white/80" />
               </div>
@@ -71,7 +71,7 @@ function Landing() {
               <div className="mt-4 flex items-end justify-between">
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-white/50">Holder</p>
-                  <p className="text-sm font-medium">Alex Morgan</p>
+                  <p className="text-sm font-medium">Arjun Sharma</p>
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-white/50">Expires</p>

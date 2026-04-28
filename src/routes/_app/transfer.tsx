@@ -57,7 +57,7 @@ function Transfer() {
       <div className="rounded-2xl border border-border bg-card p-8 shadow-card">
         <div className="mb-6 rounded-xl bg-gradient-primary p-4 text-primary-foreground shadow-glow">
           <p className="text-xs uppercase tracking-widest opacity-80">Available Balance</p>
-          <p className="mt-1 text-2xl font-bold">${balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+          <p className="mt-1 text-2xl font-bold">₹{balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
         </div>
 
         <form onSubmit={submit} className="space-y-4">
@@ -70,7 +70,7 @@ function Transfer() {
             <Input id="to" required value={toAccount} onChange={(e) => setToAccount(e.target.value)} placeholder="AC0000000000" className="mt-1.5 font-mono" />
           </div>
           <div>
-            <Label htmlFor="amt">Amount (USD)</Label>
+            <Label htmlFor="amt">Amount (INR)</Label>
             <Input id="amt" type="number" step="0.01" min="0.01" required value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="0.00" className="mt-1.5" />
           </div>
           <div>

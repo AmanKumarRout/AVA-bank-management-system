@@ -118,7 +118,7 @@ function Admin() {
             { icon: Wallet, label: "Total Accounts", value: stats.accounts },
             { icon: Landmark, label: "Total Loans", value: stats.loans },
             { icon: ArrowLeftRight, label: "Transactions", value: stats.txns },
-            { icon: Building2, label: "System Balance", value: `$${stats.totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}` },
+            { icon: Building2, label: "System Balance", value: `₹${stats.totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}` },
           ].map((s) => (
             <div key={s.label} className="rounded-2xl border border-border bg-card p-5 shadow-card">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-primary"><s.icon className="h-5 w-5 text-primary-foreground" /></div>
@@ -149,7 +149,7 @@ function Admin() {
                     <td className="px-4 py-3 font-medium">{u.full_name || "—"}</td>
                     <td className="px-4 py-3 text-muted-foreground">{u.email}</td>
                     <td className="px-4 py-3 font-mono text-xs">{u.account_number}</td>
-                    <td className="px-4 py-3 text-right font-semibold">${u.balance.toFixed(2)}</td>
+                    <td className="px-4 py-3 text-right font-semibold">₹{u.balance.toFixed(2)}</td>
                     <td className="px-4 py-3">
                       <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${u.status === "active" ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive"}`}>
                         {u.status}
@@ -181,7 +181,7 @@ function Admin() {
                         <div className="font-mono text-xs">{t.account_number}</div>
                       </td>
                       <td className={`px-4 py-2.5 text-right font-semibold ${t.type === "credit" ? "text-success" : "text-destructive"}`}>
-                        {t.type === "credit" ? "+" : "-"}${Number(t.amount).toFixed(2)}
+                        {t.type === "credit" ? "+" : "-"}₹{Number(t.amount).toFixed(2)}
                       </td>
                     </tr>
                   ))}
@@ -204,7 +204,7 @@ function Admin() {
                         <div className="text-xs text-muted-foreground">{l.purpose}</div>
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <div className="font-semibold">${Number(l.amount).toLocaleString()}</div>
+                        <div className="font-semibold">₹{Number(l.amount).toLocaleString()}</div>
                         <span className={`text-xs ${l.status === "approved" ? "text-success" : l.status === "rejected" ? "text-destructive" : "text-muted-foreground"}`}>{l.status}</span>
                       </td>
                     </tr>

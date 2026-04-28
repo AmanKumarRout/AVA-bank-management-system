@@ -65,7 +65,7 @@ function Services() {
           <h2 className="font-semibold">Apply for a loan</h2>
           <form onSubmit={apply} className="mt-4 space-y-3">
             <div>
-              <Label htmlFor="lamt">Amount (USD)</Label>
+              <Label htmlFor="lamt">Amount (INR)</Label>
               <Input id="lamt" type="number" step="0.01" min="100" required value={amount} onChange={(e) => setAmount(e.target.value)} className="mt-1" />
             </div>
             <div>
@@ -85,7 +85,7 @@ function Services() {
             {loans.map((l) => (
               <div key={l.id} className="flex items-center justify-between rounded-lg border border-border p-3">
                 <div>
-                  <p className="font-semibold">${Number(l.amount).toLocaleString()}</p>
+                  <p className="font-semibold">₹{Number(l.amount).toLocaleString()}</p>
                   <p className="text-xs text-muted-foreground">{l.purpose}</p>
                 </div>
                 <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
