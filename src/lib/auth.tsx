@@ -1,27 +1,9 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { getUserRole } from "@/lib/roles";
 
 type Role = "admin" | "user" | null;
-
-export async function getUserRole(userId: string): Promise<Exclude<Role, null>> {
-  let lastError: unknown = null;
-
-  for (let attempt = 0; attempt < 3; attempt += 1) {
-    const { data, error } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId)
-      .maybeSingle();
-
-    if (!error) return (data?.role as Exclude<Role, null>) ?? "user";
-
-    lastError = error;
-    await new Promise((resolve) => setTimeout(resolve, 700 * (attempt + 1)));
-  }
-
-  throw lastError instanceof Error ? lastError : new Error("Could not load user role");
-}
 
 interface AuthCtx {
   user: User | null;
@@ -89,9 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await supabase.auth.signOut();
   };
 
-  return (
-    <Ctx.Provider value={{ user, session, role, loading, signOut }}>{children}</Ctx.Provider>
-  );
+  return <Ctx.Provider value={{ user, session, role, loading, signOut }}>{children}</Ctx.Provider>;
 }
 
 export const useAuth = () => useContext(Ctx);
