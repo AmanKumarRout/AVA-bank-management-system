@@ -4,6 +4,25 @@ import { supabase } from "@/integrations/supabase/client";
 
 type Role = "admin" | "user" | null;
 
+export async function getUserRole(userId: string): Promise<Exclude<Role, null>> {
+  let lastError: unknown = null;
+
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (!error) return (data?.role as Exclude<Role, null>) ?? "user";
+
+    lastError = error;
+    await new Promise((resolve) => setTimeout(resolve, 700 * (attempt + 1)));
+  }
+
+  throw lastError instanceof Error ? lastError : new Error("Could not load user role");
+}
+
 interface AuthCtx {
   user: User | null;
   session: Session | null;
@@ -31,16 +50,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
+        setLoading(true);
         setTimeout(async () => {
-          const { data } = await supabase
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", s.user.id)
-            .maybeSingle();
-          setRole((data?.role as Role) ?? "user");
+          try {
+            setRole(await getUserRole(s.user.id));
+          } finally {
+            setLoading(false);
+          }
         }, 0);
       } else {
         setRole(null);
+        setLoading(false);
       }
     });
 
@@ -48,13 +68,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
-        supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", s.user.id)
-          .maybeSingle()
-          .then(({ data }) => {
-            setRole((data?.role as Role) ?? "user");
+        getUserRole(s.user.id)
+          .then((userRole) => {
+            setRole(userRole);
+            setLoading(false);
+          })
+          .catch(() => {
+            setRole(null);
             setLoading(false);
           });
       } else {
