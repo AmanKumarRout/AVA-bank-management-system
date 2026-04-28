@@ -35,7 +35,7 @@ function Landing() {
               <Zap className="h-3 w-3" /> Modern banking, redesigned
             </div>
             <h1 className="text-5xl font-bold tracking-tight text-foreground lg:text-6xl">
-              Banking that <span className="bg-gradient-primary bg-clip-text text-transparent">moves at your speed</span>
+              Banking that <span className="text-primary">moves at your speed</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
               Send money instantly, track every transaction, and manage loans — all from a beautifully simple dashboard built for the modern world.
