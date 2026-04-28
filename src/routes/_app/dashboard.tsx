@@ -130,7 +130,7 @@ function Dashboard() {
                 </div>
               </div>
               <p className={`font-semibold ${t.type === "credit" ? "text-success" : "text-destructive"}`}>
-                {t.type === "credit" ? "+" : "-"}${Number(t.amount).toFixed(2)}
+                {t.type === "credit" ? "+" : "-"}₹{Number(t.amount).toFixed(2)}
               </p>
             </div>
           ))}

@@ -95,7 +95,7 @@ function Statement() {
                     </span>
                   </td>
                   <td className={`px-4 py-3 text-right font-semibold ${t.type === "credit" ? "text-success" : "text-destructive"}`}>
-                    {t.type === "credit" ? "+" : "-"}${Number(t.amount).toFixed(2)}
+                    {t.type === "credit" ? "+" : "-"}₹{Number(t.amount).toFixed(2)}
                   </td>
                   <td className="px-4 py-3 text-right font-mono text-muted-foreground">₹{Number(t.balance_after).toFixed(2)}</td>
                 </tr>

@@ -181,7 +181,7 @@ function Admin() {
                         <div className="font-mono text-xs">{t.account_number}</div>
                       </td>
                       <td className={`px-4 py-2.5 text-right font-semibold ${t.type === "credit" ? "text-success" : "text-destructive"}`}>
-                        {t.type === "credit" ? "+" : "-"}${Number(t.amount).toFixed(2)}
+                        {t.type === "credit" ? "+" : "-"}₹{Number(t.amount).toFixed(2)}
                       </td>
                     </tr>
                   ))}
