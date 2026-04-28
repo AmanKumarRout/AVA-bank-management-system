@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { getUserRole } from "@/lib/roles";
 
 type Role = "admin" | "user" | null;
 
@@ -31,16 +32,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
+        setLoading(true);
         setTimeout(async () => {
-          const { data } = await supabase
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", s.user.id)
-            .maybeSingle();
-          setRole((data?.role as Role) ?? "user");
+          try {
+            setRole(await getUserRole(s.user.id));
+          } finally {
+            setLoading(false);
+          }
         }, 0);
       } else {
         setRole(null);
+        setLoading(false);
       }
     });
 
@@ -48,13 +50,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
-        supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", s.user.id)
-          .maybeSingle()
-          .then(({ data }) => {
-            setRole((data?.role as Role) ?? "user");
+        getUserRole(s.user.id)
+          .then((userRole) => {
+            setRole(userRole);
+            setLoading(false);
+          })
+          .catch(() => {
+            setRole(null);
             setLoading(false);
           });
       } else {
@@ -69,9 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await supabase.auth.signOut();
   };
 
-  return (
-    <Ctx.Provider value={{ user, session, role, loading, signOut }}>{children}</Ctx.Provider>
-  );
+  return <Ctx.Provider value={{ user, session, role, loading, signOut }}>{children}</Ctx.Provider>;
 }
 
 export const useAuth = () => useContext(Ctx);

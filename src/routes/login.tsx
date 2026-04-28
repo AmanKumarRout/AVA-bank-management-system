@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CreditCard, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { getUserRole } from "@/lib/roles";
 
 export const Route = createFileRoute("/login")({ component: Login });
 
@@ -24,14 +25,18 @@ function Login() {
       setLoading(false);
       return;
     }
-    // Look up role
-    const { data: roleRow } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", data.user.id)
-      .maybeSingle();
+    let role: "admin" | "user";
+    try {
+      role = await getUserRole(data.user.id);
+    } catch {
+      await supabase.auth.signOut();
+      toast.error("Login worked, but account role could not load. Please try again in a minute.");
+      setLoading(false);
+      return;
+    }
+
     toast.success("Welcome back!");
-    if (roleRow?.role === "admin") navigate({ to: "/admin" });
+    if (role === "admin") navigate({ to: "/admin" });
     else navigate({ to: "/dashboard" });
   };
 
@@ -52,19 +57,40 @@ function Login() {
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1.5" />
+              <Input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1.5"
+              />
             </div>
             <div>
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1.5" />
+              <Input
+                id="password"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1.5"
+              />
             </div>
-            <Button type="submit" disabled={loading} className="w-full bg-gradient-primary shadow-card">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-primary shadow-card"
+            >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Sign in"}
             </Button>
           </form>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            Don't have an account? <Link to="/signup" className="font-medium text-primary hover:underline">Open one</Link>
+            Don't have an account?{" "}
+            <Link to="/signup" className="font-medium text-primary hover:underline">
+              Open one
+            </Link>
           </p>
         </div>
 
