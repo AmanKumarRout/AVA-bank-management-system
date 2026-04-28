@@ -38,7 +38,7 @@ export function AppSidebar() {
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-primary shadow-glow">
             <CreditCard className="h-4 w-4 text-primary-foreground" />
           </div>
-          {!collapsed && <span className="font-bold tracking-tight">Nexus Bank</span>}
+          {!collapsed && <span className="font-bold tracking-tight">AVA Bank</span>}
         </Link>
       </SidebarHeader>
       <SidebarContent>

@@ -51,7 +51,7 @@ function Transfer() {
     <div className="mx-auto max-w-2xl">
       <div className="mb-6">
         <h1 className="text-3xl font-bold tracking-tight">Transfer Money</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Send funds securely to any Nexus account</p>
+        <p className="mt-1 text-sm text-muted-foreground">Send funds securely to any AVA account</p>
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-8 shadow-card">

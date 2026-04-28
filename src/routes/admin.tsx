@@ -102,7 +102,7 @@ function Admin() {
               <Building2 className="h-4 w-4 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="font-bold">Nexus Bank — Admin</h1>
+              <h1 className="font-bold">AVA Bank — Admin</h1>
               <p className="text-xs text-muted-foreground">System Console</p>
             </div>
           </div>
