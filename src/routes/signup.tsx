@@ -54,7 +54,7 @@ function Signup() {
 
         <div className="rounded-2xl border border-border bg-card p-8 shadow-elegant">
           <h1 className="text-2xl font-bold">Open your account</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Get started with $5,000 in your account</p>
+          <p className="mt-1 text-sm text-muted-foreground">Get started with ₹5,00,000 in your account</p>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>
