@@ -27,7 +27,7 @@ function Login() {
     }
     let role: "admin" | "user";
     try {
-      role = await getUserRole(data.user.id);
+      role = await getUserRole(data.session);
     } catch {
       await supabase.auth.signOut();
       toast.error("Login worked, but account role could not load. Please try again in a minute.");

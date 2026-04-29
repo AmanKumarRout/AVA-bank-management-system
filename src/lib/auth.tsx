@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setLoading(true);
         setTimeout(async () => {
           try {
-            setRole(await getUserRole(s.user.id));
+            setRole(await getUserRole(s));
           } finally {
             setLoading(false);
           }
@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
-        getUserRole(s.user.id)
+        getUserRole(s)
           .then((userRole) => {
             setRole(userRole);
             setLoading(false);
