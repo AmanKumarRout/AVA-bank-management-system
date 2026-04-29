@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 type UserRole = "admin" | "user";
 
-export async function getUserRole(session: Pick<Session, "access_token">): Promise<UserRole> {
+export async function getUserRole(session: Pick<Session, "access_token" | "user">): Promise<UserRole> {
   let lastError: unknown = null;
 
   for (let attempt = 0; attempt < 3; attempt += 1) {
@@ -11,6 +11,7 @@ export async function getUserRole(session: Pick<Session, "access_token">): Promi
       const { data, error } = await supabase
         .from("user_roles")
         .select("role")
+        .eq("user_id", session.user.id)
         .maybeSingle();
 
       if (error) throw error;
