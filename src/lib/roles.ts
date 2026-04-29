@@ -1,5 +1,5 @@
 import type { Session } from "@supabase/supabase-js";
-import { getCurrentUserRole } from "@/server/roles.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 type UserRole = "admin" | "user";
 
@@ -8,8 +8,13 @@ export async function getUserRole(session: Pick<Session, "access_token">): Promi
 
   for (let attempt = 0; attempt < 3; attempt += 1) {
     try {
-      const result = await getCurrentUserRole({ data: { accessToken: session.access_token } });
-      return result.role as UserRole;
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("role")
+        .maybeSingle();
+
+      if (error) throw error;
+      return data?.role === "admin" ? "admin" : "user";
     } catch (error) {
       lastError = error;
     }
@@ -17,5 +22,6 @@ export async function getUserRole(session: Pick<Session, "access_token">): Promi
     await new Promise((resolve) => setTimeout(resolve, 700 * (attempt + 1)));
   }
 
-  throw lastError instanceof Error ? lastError : new Error("Could not load user role");
+  console.warn("Could not load user role, defaulting to user access:", lastError);
+  return "user";
 }
