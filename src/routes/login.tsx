@@ -38,7 +38,7 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     const { data, error } = await signInWithRetry(email, password);
-    if (error) {
+    if (error || !data?.session) {
       toast.error(isTransientAuthError(error.message) ? "Banking system is starting up. Please try again in a moment." : "Invalid credentials");
       setLoading(false);
       return;
