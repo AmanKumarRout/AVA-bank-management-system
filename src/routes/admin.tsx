@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -9,10 +9,6 @@ import { retryQuery } from "@/lib/queryRetry";
 
 export const Route = createFileRoute("/admin")({
   component: Admin,
-  beforeLoad: async () => {
-    const { data } = await supabase.auth.getSession();
-    if (!data.session) throw redirect({ to: "/login" });
-  },
 });
 
 interface Stats { customers: number; accounts: number; loans: number; txns: number; totalBalance: number; }

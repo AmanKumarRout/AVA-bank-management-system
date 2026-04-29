@@ -10,6 +10,24 @@ import { getUserRole } from "@/lib/roles";
 
 export const Route = createFileRoute("/login")({ component: Login });
 
+const isTransientAuthError = (message: string) =>
+  /database error|unexpected|schema|timeout|network|fetch|503|500/i.test(message);
+
+async function signInWithRetry(email: string, password: string) {
+  let lastError: Error | null = null;
+
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (!error) return { data, error: null };
+
+    lastError = error;
+    if (!isTransientAuthError(error.message)) break;
+    await new Promise((resolve) => setTimeout(resolve, 900 * (attempt + 1)));
+  }
+
+  return { data: null, error: lastError };
+}
+
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -19,9 +37,9 @@ function Login() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      toast.error("Invalid credentials");
+    const { data, error } = await signInWithRetry(email, password);
+    if (error || !data?.session) {
+      toast.error(error && isTransientAuthError(error.message) ? "Banking system is starting up. Please try again in a moment." : "Invalid credentials");
       setLoading(false);
       return;
     }
