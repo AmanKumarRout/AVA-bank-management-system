@@ -11,9 +11,9 @@ function Contact() {
 
       <div className="mt-8 grid gap-4 md:grid-cols-3">
         {[
-          { icon: Phone, title: "Call us", val: "1-800-NEXUS-99" },
-          { icon: Mail, title: "Email", val: "support@nexus.bank" },
-          { icon: MapPin, title: "Headquarters", val: "1 Wall Street, NYC" },
+          { icon: Phone, title: "Call us", val: "+91 99713 78596" },
+          { icon: Mail, title: "Email", val: "support@avabank.com" },
+          { icon: MapPin, title: "Headquarters", val: "Delhi, India" },
         ].map((c) => (
           <div key={c.title} className="rounded-2xl border border-border bg-card p-6 text-center shadow-card">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-primary"><c.icon className="h-5 w-5 text-primary-foreground" /></div>
