@@ -28,21 +28,30 @@ function Dashboard() {
 
   useEffect(() => {
     if (!user) return;
+    let cancelled = false;
     (async () => {
-      const [{ data: acc }, { data: prof }] = await Promise.all([
-        supabase.from("accounts").select("*").eq("user_id", user.id).maybeSingle(),
-        supabase.from("profiles").select("full_name,email").eq("id", user.id).maybeSingle(),
-      ]);
-      setAccount(acc as Account);
-      setProfile(prof as Profile);
-      if (acc) {
-        const { data: t } = await supabase
-          .from("transactions").select("*").eq("account_id", acc.id)
-          .order("created_at", { ascending: false }).limit(5);
-        setTxns((t as Txn[]) ?? []);
+      try {
+        const [acc, prof] = await Promise.all([
+          retryQuery<Account>(() => supabase.from("accounts").select("*").eq("user_id", user.id).maybeSingle()),
+          retryQuery<Profile>(() => supabase.from("profiles").select("full_name,email").eq("id", user.id).maybeSingle()),
+        ]);
+        if (cancelled) return;
+        setAccount(acc);
+        setProfile(prof);
+        if (acc) {
+          const t = await retryQuery<Txn[]>(() =>
+            supabase.from("transactions").select("*").eq("account_id", acc.id)
+              .order("created_at", { ascending: false }).limit(5)
+          );
+          if (!cancelled) setTxns(t ?? []);
+        }
+      } catch (e) {
+        console.error("Dashboard load failed:", e);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-      setLoading(false);
     })();
+    return () => { cancelled = true; };
   }, [user]);
 
   if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>;
